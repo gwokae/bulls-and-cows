@@ -16,13 +16,17 @@ function isBadAnswer (correctAns, ans) {
 }
 
 module.exports = {
-  generate: function(digits) {
+  generate: function(digits, shuffleTimes) {
     var code = '';
     if (digits > numbers.length) {
         throw new Error('too long to generate', digits)
     }
 
-    return numbers.sort(randomComparator).slice(0, digits).reduce(function(code, num) {
+    for (var i = 0; i < (shuffleTimes || 10); i++) {
+      numbers = numbers.sort(randomComparator);
+    }
+
+    return numbers.slice(0, digits).reduce(function(code, num) {
       return code + num
     }, '');
   },
